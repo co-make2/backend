@@ -17,7 +17,7 @@ exports.up = function(knex) {
         users.string('zip', 5)
           .notNullable();
         users.boolean('verified')
-          .defaultTo(false)
+          .defaultTo(false);
     })
     .createTable('categories', categories => {
         categories.increments('id');
