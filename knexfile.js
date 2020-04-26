@@ -9,7 +9,7 @@ module.exports = {
       filename: './data/comake.db3'
     },
     migrations: {
-      directory: '/data/migrations',
+      directory: './data/migrations',
     },
     pool: {
       afterCreate: (conn, done) => {
@@ -44,6 +44,6 @@ module.exports = {
     seeds: {
       directory: './data/seeds',
     }
-  },
+  }
 
 };
