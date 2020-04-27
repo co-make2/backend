@@ -40,7 +40,27 @@ router.post("/register", (req, res) => {
     }
 })
 
-
+router.post('/login', (req, res) => {
+  let { username, password } = req.body;
+  console.log(username, password)
+  Users.findBy({ username })
+    .first()
+    .then(user => {
+        console.log(user)
+        if(user && bcrypt.compareSync(password, user.password)){
+            const token = gt.generateToken(user)
+            res.status(200).json({
+                message: `welcome ${user.username}`, token
+            })
+        } else {
+            res.status(401).json({ message: "Invalid Credentials" })
+        }
+    })
+    .catch(error => {
+        console.log(error)
+        res.status(500).json({message: 'Server Error for Login', error})
+    })
+})
 
 
 
