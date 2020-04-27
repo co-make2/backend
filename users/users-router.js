@@ -25,12 +25,12 @@ router.post("/register", (req, res) => {
     
     userData.password = hash
 
-    if(userData.username && userData.email && username.password && username.zip){
+    if(userData.username && userData.email && userData.password && userData.zip){
         userData.id = shortId.generate();
         Users.add(userData)
-          .then(newUser => {
+          .then(user => {
               const token = gt.generateToken(userData)
-              res.status(201).json({newUser, token, message: "user Created"})
+              res.status(201).json({userData, token, message: "user Created"})
           })
           .catch(error => {
             res.status(500).json({message: `Server Failed to Create a new User ${error.message}`})
