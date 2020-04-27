@@ -18,6 +18,18 @@ router.get('/', (req, res) => {
       })
 })
 
+router.get('/:id', (req, res) => {
+    const { id } = req.params
+
+    Users.findById(id)
+      .then(user => {
+          res.status(200).json(user)
+      })
+      .catch(error => {
+          res.status(500).json({ message: `Failed to pull user with id ${id} from server`, error: error})
+      })
+})
+
 router.post("/register", (req, res) => {
     const userData = req.body
     const rounds = process.env.HASH_ROUNDS || 6;
