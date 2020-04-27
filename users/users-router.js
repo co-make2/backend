@@ -78,6 +78,26 @@ router.delete('/:id', (req, res) => {
     })
 })
 
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    Users.findById(id)
+      .then(user => {
+          if(user){
+            Users.update(id, changes)
+              .then(updatedUser => {
+                  res.status(201).json(updatedUser)
+              })
+          }else{
+            res.status(404).json({ message: `Could not find user with id ${id}` })
+          }
+        })
+      .catch(error => {
+          res.status(500).json({ error: `Server failed to update user ${error.message}` })
+      })
+})
+
 
 
 
