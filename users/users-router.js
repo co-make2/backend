@@ -62,6 +62,22 @@ router.post('/login', (req, res) => {
     })
 })
 
+router.delete('/:id', (req, res) => {
+    const{ id } = req.params;
+
+    Users.remove(id)
+      .then(deleted => {
+        if (deleted) {
+            res.json({removed: deleted})
+        } else {
+            res.status(404).json({error: `Could not find a project with id ${id}`})
+        }
+      })
+      .catch(error => {
+        res.status(500).json({error: `Server unable to delete project with id ${id} Error: ${error}`})
+    })
+})
+
 
 
 
