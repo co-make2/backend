@@ -18,9 +18,9 @@ router.post('/', (req, res) => {
     catName = req.body
 
     Cats.add(catName)
-      .then(cat => [
+      .then(cat => {
           res.status(201).json(cat)
-      ])
+    })
       .catch(error => {
           res.status(500).json({message: "server Failed to create a category", error: error.message})
       })
