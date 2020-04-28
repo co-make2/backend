@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
 
     Posts.add(postData)
       .then(newPost => {
-          res.status(201).json({newPost})
+          res.status(201).json(newPost)
       })
       .catch(error => {
         res.status(500).json({message: "server Failed to create a post", error: error.message})
