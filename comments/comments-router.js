@@ -12,6 +12,17 @@ router.get('/', (req,res) => {
       })
 })
 
+router.get('/:id', (req,res) => {
+  const postId = req.params
+  Comments.findAllForPost(postId)
+    .then(comments => {
+        res.status(200).json(comments)
+    })
+    .catch(error => {
+      res.status(500).json({ message: "failed to pull comments from server", error: error.message})
+    })
+})
+
 router.post('/', (req,res) => {
     commentData = req.body
 

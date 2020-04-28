@@ -25,6 +25,18 @@ router.post('/', (req, res) => {
     })
 })
 
+router.get('/:id', (req, res) => {
+    const { id } = req.params
+
+    Posts.pullPostandComments(id)
+      .then(user => {
+          res.status(200).json(user)
+      })
+      .catch(error => {
+          res.status(500).json({ message: `Failed to pull post with id ${id} from server`, error: error.message})
+      })
+})
+
 
 
 

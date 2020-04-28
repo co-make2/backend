@@ -4,6 +4,7 @@ module.exports = {
     //names of functions
     find,
     findBy,
+    findAllForPost,
     findById,
     pullPostandComments,
     add,
@@ -17,7 +18,12 @@ function find(){
 }
 
 function findBy(filter) {
-    return dB('comments').where(filter);
+  return dB('comments').where(filter);
+}
+
+function findAllForPost({id}) {
+  console.log(id)
+    return dB('comments').where({post_id: id});
 }
 
 function findById(id){
