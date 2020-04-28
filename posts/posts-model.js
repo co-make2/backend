@@ -16,7 +16,7 @@ function find(){
     return dB('posts as p')
       .leftJoin('categories as c', 'p.category_id', 'c.id')
       .join('users as u', 'p.user_id', 'u.id')
-      .select('p.id', 'p.title', 'p.text', 'p.zip', 'p.created_at','p.upvotes', 'u.username', 'c.category', 'p.img_url')
+      .select('p.id as post_id', 'p.title as post_title', 'p.text as post_text', 'p.zip as post_zip', 'p.created_at as post_created_at','p.upvotes as post_upvotes', 'u.username as posted_by', 'c.category as post_category', 'p.img_url as post_url')
 }
 
 function findBy(filter) {
@@ -24,9 +24,12 @@ function findBy(filter) {
 }
 
 function findById(id){
-    return dB('posts')
-      .where({ id })
-      .first()
+    return dB('posts as p')
+    .leftJoin('categories as c', 'p.category_id', 'c.id')
+    .join('users as u', 'p.user_id', 'u.id')
+    .select('p.id as post_id', 'p.title as post_title', 'p.text as post_text', 'p.zip as post_zip', 'p.created_at as post_created_at','p.upvotes as post_upvotes', 'u.username as posted_by', 'c.category as post_category', 'p.img_url as post_url')
+    .where({post_id: id})
+    .first()
 }
 
 

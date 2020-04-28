@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const Posts = require('./posts-model.js');
+const Comments = require('../comments/comments-model.js')
 
 router.get('/', (req, res) => {
     Posts.find()
@@ -28,7 +29,7 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
     const { id } = req.params
 
-    Posts.pullPostandComments(id)
+    Posts.findById(id)
       .then(user => {
           res.status(200).json(user)
       })
@@ -37,8 +38,41 @@ router.get('/:id', (req, res) => {
       })
 })
 
+router.delete('/:id', (req, res) => {
+    const {id} = req.params
 
+    Posts.remove(id)
+      .then(deleted => {
+          if(deleted) {
+              res.json({removed: deleted})
+          } else {
+            res.status(404).json({error: `Could not find a project with id ${id}`})
+          }
+      })
+      .catch(error => {
+        res.status(500).json({error: `Server unable to delete project with id ${id} Error: ${error}`})
+    })
+})
 
+router.put('/:id', (req, res) => {
+    const {id} = req.params
+    const changes = req.body
+
+    Posts.findById(id)
+      .then(post => {
+          if (post){
+              Posts.update(id, changes)
+                .then(updatedPost => {
+                      res.status(201).json(updatedPost)
+                })
+          } else {
+            res.status(404).json({ message: `Could not find post with id ${id}` })
+          }
+      })
+      .catch(error => {
+        res.status(500).json({ error: `Server failed to update post ${error.message}` })
+    })
+})
 
 
 
