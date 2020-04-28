@@ -37,7 +37,7 @@ function findById(id){
   .leftJoin("categories as c", "p.category_id", "c.id")
   .join("users as u", "p.user_id", "u.id")
   .select("p.id as post_id", "p.title as post_title", "p.text as post_text", "p.zip as post_zip", "p.created_at as post_created_at","p.upvotes as post_upvotes", "u.username as posted_by", "c.category as post_category", "p.img_url as post_url")
-  .where({post_id: id})
+  .where("p.id", id)
   .first()
 }
 
