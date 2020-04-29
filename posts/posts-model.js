@@ -8,7 +8,8 @@ module.exports = {
     pullPostandComments,
     add,
     update,
-    remove
+    remove,
+    vote
 }
 
 //functions
@@ -84,4 +85,25 @@ function remove(id){
       })
 }
 
+// function vote(id, vote){
+//   findById(id)
+//     .then(post => {
+//       console.log("checking post",post)
+//       let currentVote = post.post_upvotes
+//       console.log("checking cv",currentVote)
+//       let newVote = (currentVote + vote)
+//       console.log("new V", newVote)
+//       return (rVote = newVote)
+//     })
+
+//     return dB('posts')
+//       .where({ id })
+//       .update('upvotes', rVote, 'id')
+// }
+
+function vote(id, vote){
+  return dB('posts')
+    .where({id})
+    .increment('upvotes', vote)
+}
 
