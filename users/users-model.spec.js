@@ -26,7 +26,7 @@ describe('users router', function (){
             await db('users').truncate() 
         })
         
-        it("returns successful registration", function (){
+        it("returns 201 successful registration", function (){
             return request(server)
               .post('/api/users/register')
               .send(testUser)
@@ -36,7 +36,22 @@ describe('users router', function (){
         })
     })
 
-    
+    const testLogin = {
+        username: "testuser",
+        password: 'testpassword'
+    }
+
+    describe('POST /api/users/login', function () {
+
+        it('returns 200 successful login', function (){
+            return request(server)
+              .post('/api/users/login')
+              .send(testLogin)
+              .then(res => {
+                  expect(res.status).toBe(200)
+              })
+        })
+    })
 
 
 
