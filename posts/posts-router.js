@@ -73,6 +73,27 @@ router.put('/:id', (req, res) => {
     })
 })
 
+router.put('/:id/vote', (req, res) => {
+    const {id} = req.params
+    const {vote} = req.body
+    
+
+    Posts.findById(id)
+      .then(post => {
+          if (post){
+              Posts.vote(id, vote)
+                .then(updatedPost => {
+                      res.status(201).json(updatedPost)
+                })
+          } else {
+            res.status(404).json({ message: `Could not find post with id ${id}` })
+          }
+      })
+      .catch(error => {
+        res.status(500).json({ error: `Server failed to update post ${error.message}` })
+    })
+})
+
 
 
 
