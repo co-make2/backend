@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const dB = require('../data/dbConfig.js')
 
 module.exports = {
@@ -37,7 +38,14 @@ function add(user){
 }
 
 function update(id, changes){
-    return dB('users')
+
+  if(changes.password){
+    const password = changes.password
+    const rounds = process.env.HASH_ROUNDS || 6;
+    const hash = bcrypt.hashSync(password, rounds)
+    changes.password = hash
+
+      return dB('users')
       .where({ id })
       .update(changes)
       .then(() => {
@@ -46,6 +54,18 @@ function update(id, changes){
       .catch(error => {
         console.log("error on updating user", error)
       })
+    
+  } else {
+    return dB('users')
+    .where({ id })
+    .update(changes)
+    .then(() => {
+      return findById(id)
+    })
+    .catch(error => {
+      console.log("error on updating user", error)
+    })
+  }
 }
 
 function remove(id){
