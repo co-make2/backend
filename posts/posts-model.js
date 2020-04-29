@@ -105,5 +105,8 @@ function vote(id, vote){
   return dB('posts')
     .where({id})
     .increment('upvotes', vote)
+    .then(v => {
+      return findById(id)
+    })
 }
 
