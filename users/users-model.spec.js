@@ -9,6 +9,7 @@ describe('users router', function (){
             return request(server)
               .get('/api/users')
               .then(res => {
+                //   console.log("res is here", res.body[0].id)
                   expect(res.status).toBe(200)
               })
         })
@@ -53,6 +54,22 @@ describe('users router', function (){
         })
     })
 
+    const newZip = {zip: "00007"}
+
+    // describe("PUT /api/user first set get to aquire userid", async function () {
+    //     it('should return 200 OK', function (){
+    //         return request(server)
+    //           .get('/api/users')
+    //           .then(res => {
+    //              return (user = res.body[0].id)
+    //           })
+    //           .put(`/api/users/${user}`)
+    //               .send(newZip)
+    //               .then(res2 => {
+    //                   expect(res2.status).toBe(201)
+    //               })
+    //     })
+    // })
 
 
 
