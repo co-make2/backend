@@ -77,7 +77,7 @@ router.put('/:id/vote', (req, res) => {
     const {id} = req.params
     const {vote} = req.body
     
-
+    if(vote){
     Posts.findById(id)
       .then(post => {
           if (post){
@@ -92,9 +92,10 @@ router.put('/:id/vote', (req, res) => {
       .catch(error => {
         res.status(500).json({ error: `Server failed to update post ${error.message}` })
     })
+    }else{
+        res.status(400).json({message: "the put request must contain- vote: value "})
+    }
 })
-
-
 
 
 module.exports = router;
