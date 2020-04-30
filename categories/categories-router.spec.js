@@ -67,10 +67,42 @@ describe('categories router', function (){
         })
     })
 
+    const newCat = {category: "Update Test"}
+
+    describe("PUT /api/categories", function (){
+      it('should return 200 OK', function (){
+        return request(server)
+        .post('/api/categories')
+        .send(testCat)
+        .set('authorization', token)
+        .then(res => {
+            return request(server)
+            .put('/api/categories/1')
+            .send(newCat)
+            .set('authorization', token)
+            .then(res => {
+            expect(res.status).toBe(200)
+            })
+        })
+      })
+    })
 
 
-
-
-
+    describe("DELETE /api/categories/1", function (){
+      it('should return 200 OK', function (){
+        return request(server)
+        .post('/api/categories')
+        .send(testCat)
+        .set('authorization', token)
+        .then(res => {
+            return request(server)
+            .delete('/api/categories/1')
+            .set('authorization', token)
+            .then(res2 => {
+                expect(res2.status).toBe(200) 
+            })
+        })
+      })
+    })
 
 })
