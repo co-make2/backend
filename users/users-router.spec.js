@@ -14,6 +14,10 @@ describe('users router', function (){
               })
         })
     })
+
+    beforeEach(async () => {
+        await db('users').truncate() 
+    })
  
  
 
@@ -25,10 +29,6 @@ describe('users router', function (){
     }
 
     describe('POST /api/users/register', function () {
-        beforeEach(async () => {
-            await db('users').truncate() 
-        })
-        
         it("returns 201 successful registration", function (){
             return request(server)
               .post('/api/users/register')
@@ -47,11 +47,17 @@ describe('users router', function (){
     describe('POST /api/users/login', function () {
 
         it('returns 200 successful login', function (){
+
             return request(server)
+              .post('/api/users/register')
+              .send(testUser)
+              .then(res => {
+                return request(server)
               .post('/api/users/login')
               .send(testLogin)
-              .then(res => {
-                  expect(res.status).toBe(200)
+              .then(res2 => {
+                  expect(res2.status).toBe(200)
+              })
               })
         })
     })
@@ -61,8 +67,8 @@ describe('users router', function (){
     describe("PUT /api/users - first need to set userid in req", function () {
         it('should return 200 OK', function (){
             return request(server)
-              .post('/api/users/login')
-              .send(testLogin)
+              .post('/api/users/register')
+              .send(testUser)
               .then(res => {
                 return request(server)
               .get('/api/users')
@@ -85,17 +91,23 @@ describe('users router', function (){
     describe('DELETE /api/users - first need to set userid in req', function () {
         it('should return 200 OK', function () {
             return request(server)
-              .get('/api/users')
-                .then(res => {
-                    return (user = res.body[0].id)
-                })
-                .then(user => {
-                    return request(server)
-                    .delete(`/api/users/${user}`)
-                    .then(res2 => {
-                        expect(res2.status).toBe(200)
-                    }) 
-                }) 
+              .post('/api/users/register')
+              .send(testUser)
+              .then(res3 => {
+                return request(server)
+                .get('/api/users')
+                  .then(res => {
+                      return (user = res.body[0].id)
+                  })
+                  .then(user => {
+                      return request(server)
+                      .delete(`/api/users/${user}`)
+                      .then(res2 => {
+                          expect(res2.status).toBe(200)
+                      }) 
+                  }) 
+              })
+
         })
     })
 
