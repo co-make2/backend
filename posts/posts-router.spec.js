@@ -75,14 +75,16 @@ describe('posts router', function (){
 
     const newZip = {zip: "00007"}
 
-    it('should return status 201 on PUT to categories', function (){
+    it('should return status 200 on PUT to posts/:id', function (){
 
         const testPost = {
             user_id: id,
             title: "Big Day for Testing",
             text: "text is needed",
-            zip: "00001"
+            zip: "00001" 
         }
+
+        // console.log("HERE IS THE TEST POST", testPost)
 
         return request(server)
           .post('/api/posts')
@@ -95,9 +97,42 @@ describe('posts router', function (){
               .set('authorization', token)
               .then(res2 => {
                 expect(res2.status).toBe(200)
-              })
+              }) 
           })
 
+
+    })
+
+    it('should return a 201 on an authorized put to api/posts/:id/vote', function (){
+
+        const testPost = {
+            user_id: id,
+            title: "Big Day for Testing",
+            text: "text is needed",
+            zip: "00001"
+        }
+
+        console.log("TEST", testPost)
+
+        const newVote = {
+            vote: 1
+        }
+
+        return request(server)
+          .post('/api/posts')
+          .send(testPost)
+          .set('authorization', token)
+          .then( res => {
+              return request(server)
+              .put('/api/posts/1/vote')
+              .send(newVote)
+              .set('authorization', token)
+              .then(res2 => {
+                console.log("VOTE OR DIE", res2.status, res2.body)
+                expect(res2.status).toBe(201)
+              })
+
+          })
 
     })
 

@@ -83,7 +83,7 @@ describe('categories router', function (){
             .then(res2 => {
             expect(res2.status).toBe(200)
             })
-        })
+        }) 
       })
     })
 

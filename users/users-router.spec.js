@@ -14,6 +14,8 @@ describe('users router', function (){
               })
         })
     })
+ 
+ 
 
     const testUser = {
         username: "testuser",
@@ -35,7 +37,7 @@ describe('users router', function (){
                   expect(res.status).toBe(201)
               ])
         })
-    })
+    })  
 
     const testLogin = {
         username: "testuser",
@@ -75,7 +77,7 @@ describe('users router', function (){
                         expect(res3.status).toBe(201)
                     })
               })
-              })
+              }) 
               
         })
     })
@@ -92,8 +94,8 @@ describe('users router', function (){
                     .delete(`/api/users/${user}`)
                     .then(res2 => {
                         expect(res2.status).toBe(200)
-                    })
-                })
+                    }) 
+                }) 
         })
     })
 
