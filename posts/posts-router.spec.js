@@ -25,13 +25,13 @@ describe('posts router', function (){
         zip: "00000"
     }
 
-    beforeAll(async () => {
-        await db('users').truncate()
-        await db('posts').truncate()
+    beforeEach(async () => {
         await db('categories').truncate()
+        await db('posts').truncate()
+        await db('users').truncate()
     })
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         await request(server)
         .post('/api/users/register')
         .send(testUser)
@@ -74,7 +74,7 @@ describe('posts router', function (){
           })
     })
 
-    const newZip = {zip: "00007"}
+    
 
     it('should return status 200 on PUT to posts/:id', function (){
 
@@ -85,6 +85,8 @@ describe('posts router', function (){
             zip: "00001" 
         }
 
+        const newZip = {zip: "00007"}
+
         console.log("HERE IS THE TEST POST", testPost)
 
         return request(server)
@@ -92,6 +94,10 @@ describe('posts router', function (){
           .send(testPost)
           .set('authorization', token)
           .then(res => {
+              return (stat= res.status)
+             })
+             .then(stat => {
+                 console.log (stat, "@@@@@@@@@@@@@@")
               return request(server)
               .put('/api/posts/1')
               .send(newZip)

@@ -26,9 +26,9 @@ describe('categories router', function (){
     }
 
     beforeAll(async () => {
-        await db('users').truncate()
         await db('categories').truncate()
         await db('posts').truncate()
+        await db('users').truncate()
     })
 
     beforeEach(async () => {
