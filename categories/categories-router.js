@@ -32,7 +32,7 @@ router.delete('/:id', (req, res) => {
     Cats.remove(id)
       .then(deleted => {
           if(deleted) {
-              res.json({ removed: deleted})
+              res.status(200).json({ removed: deleted})
           } else{
             res.status(404).json({error: `Could not find a category with id ${id}`})
           }
@@ -51,7 +51,7 @@ router.put('/:id', (req, res) => {
           if(cat){
               Cats.update(id, changes)
                 .then(updatedCat => {
-                    res.status(201).json(updatedCat)
+                    res.status(200).json(updatedCat)
                 })
           } else {
             res.status(404).json({ message: `Could not find category with id ${id}` })

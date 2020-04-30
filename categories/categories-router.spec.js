@@ -5,7 +5,7 @@ const db = require('../data/dbConfig.js')
 
 
 describe('categories router', function (){
-    describe('GET /api/users', function () {
+    describe('FAILED GET /api/users without Auth', function () {
         it('should return 401 as there is no web token', function (){
             return request(server)
               .get('/api/categories')
@@ -25,12 +25,11 @@ describe('categories router', function (){
         zip: "00000"
     }
 
-    const testCat = {
-        category: "Testing - haha"
-    }
+
 
     beforeEach(async () => {
         await db('users').truncate()
+        await db('categories').truncate()
     })
 
     beforeEach(async () => {
@@ -43,7 +42,7 @@ describe('categories router', function (){
         })
     })
 
-    it('should return status 200', function (){
+    it('should return status 200 on GET to categories with auth', function (){
         return request(server)
         .get('/api/categories')
         .set('authorization', token)
@@ -53,10 +52,57 @@ describe('categories router', function (){
         })
     })
 
+    const testCat = {
+        category: "Testing - haha"
+    }
+
+    it('should return status 201 on POST to categories', function (){
+        return request(server)
+        .post('/api/categories')
+        .send(testCat)
+        .set('authorization', token)
+        .then(res => {
+            // console.log("***POST STATUS***",res.status) 
+            expect(res.status).toBe(201)
+        })
+    })
+
+    const newCat = {category: "Update Test"}
+
+    describe("PUT /api/categories", function (){
+      it('should return 200 OK', function (){
+        return request(server)
+        .post('/api/categories')
+        .send(testCat)
+        .set('authorization', token)
+        .then(res => {
+            return request(server)
+            .put('/api/categories/1')
+            .send(newCat)
+            .set('authorization', token)
+            .then(res => {
+            expect(res.status).toBe(200)
+            })
+        })
+      })
+    })
 
 
-
-
-
+    describe("DELETE /api/categories/1", function (){
+      it('should return 200 OK', function (){
+        return request(server)
+        .post('/api/categories')
+        .send(testCat)
+        .set('authorization', token)
+        .then(res => {
+            return request(server)
+            .delete('/api/categories/1')
+            .set('authorization', token)
+            .then(res2 => {
+                expect(res2.status).toBe(200) 
+            })
+        })
+      })
+    })
 
 })
