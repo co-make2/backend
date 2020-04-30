@@ -94,7 +94,7 @@ describe('posts router', function (){
               .send(newZip)
               .set('authorization', token)
               .then(res2 => {
-                expect(res.status).toBe(200)
+                expect(res2.status).toBe(200)
               })
           })
 

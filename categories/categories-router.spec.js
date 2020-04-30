@@ -80,8 +80,8 @@ describe('categories router', function (){
             .put('/api/categories/1')
             .send(newCat)
             .set('authorization', token)
-            .then(res => {
-            expect(res.status).toBe(201)
+            .then(res2 => {
+            expect(res2.status).toBe(200)
             })
         })
       })

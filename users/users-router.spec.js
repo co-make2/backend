@@ -59,17 +59,22 @@ describe('users router', function (){
     describe("PUT /api/users - first need to set userid in req", function () {
         it('should return 200 OK', function (){
             return request(server)
-              .get('/api/users')
+              .post('/api/users/login')
+              .send(testLogin)
               .then(res => {
-                 return (user = res.body[0].id)
+                return request(server)
+              .get('/api/users')
+              .then(res2 => {
+                 return (user = res2.body[0].id)
               })
               .then(user => {
                   return request(server)
                     .put(`/api/users/${user}`)
                     .send(newZip)
-                    .then(res2 => {
-                        expect(res2.status).toBe(201)
+                    .then(res3 => {
+                        expect(res3.status).toBe(201)
                     })
+              })
               })
               
         })
