@@ -25,12 +25,11 @@ describe('categories router', function (){
         zip: "00000"
     }
 
-    const testCat = {
-        category: "Testing - haha"
-    }
+
 
     beforeEach(async () => {
         await db('users').truncate()
+        await db('categories').truncate()
     })
 
     beforeEach(async () => {
@@ -43,7 +42,7 @@ describe('categories router', function (){
         })
     })
 
-    it('should return status 200', function (){
+    it('should return status 200 on GET to categories with auth', function (){
         return request(server)
         .get('/api/categories')
         .set('authorization', token)
@@ -51,6 +50,21 @@ describe('categories router', function (){
             // console.log("res is here", res.body) 
             expect(res.status).toBe(200)
         })
+    })
+
+    const testCat = {
+        category: "Testing - haha"
+    }
+
+    it('should return status 201 on POST to categories', function (){
+        return request(server)
+        .post('/api/categories')
+        .send(testCat)
+        .set('authorization', token)
+        .then(res => [
+            // console.log("***POST STATUS***",res.status) 
+            expect(res.status).toBe(201)
+        ])
     })
 
 
