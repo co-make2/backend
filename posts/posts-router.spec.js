@@ -26,8 +26,9 @@ describe('posts router', function (){
     }
 
     beforeEach(async () => {
-        await db('users').truncate()
+        await db('categories').truncate()
         await db('posts').truncate()
+        await db('users').truncate()
     })
 
     beforeEach(async () => {
@@ -42,7 +43,7 @@ describe('posts router', function (){
         })
     })
 
-    it('should return status 200 on GET to categories with auth', function (){
+    it('should return status 200 on GET to posts with auth', function (){
         
         return request(server)
         .get('/api/posts')
@@ -73,9 +74,43 @@ describe('posts router', function (){
           })
     })
 
-    const newZip = {zip: "00007"}
+    
 
-    it('should return status 201 on PUT to categories', function (){
+    it('should return status 200 on PUT to posts/:id', function (){
+
+        const testPost = {
+            user_id: id,
+            title: "Big Day for Testing",
+            text: "text is needed",
+            zip: "00001" 
+        }
+
+        const newZip = {zip: "00007"}
+
+        console.log("HERE IS THE TEST POST", testPost)
+
+        return request(server)
+          .post('/api/posts')
+          .send(testPost)
+          .set('authorization', token)
+          .then(res => {
+              return (stat= res.status)
+             })
+             .then(stat => {
+                 console.log (stat, "@@@@@@@@@@@@@@")
+              return request(server)
+              .put('/api/posts/1')
+              .send(newZip)
+              .set('authorization', token)
+              .then(res2 => {
+                expect(res2.status).toBe(200)
+              }) 
+          })
+
+
+    })
+
+    it('should return a 201 on an authorized put to api/posts/:id/vote', function (){
 
         const testPost = {
             user_id: id,
@@ -84,20 +119,26 @@ describe('posts router', function (){
             zip: "00001"
         }
 
+        console.log("TEST", testPost)
+
+        const newVote = {
+            vote: 1
+        }
+
         return request(server)
           .post('/api/posts')
           .send(testPost)
           .set('authorization', token)
-          .then(res => {
+          .then( res => {
               return request(server)
-              .put('/api/posts/1')
-              .send(newZip)
+              .put('/api/posts/1/vote')
+              .send(newVote)
               .set('authorization', token)
               .then(res2 => {
-                expect(res2.status).toBe(200)
+                console.log("VOTE OR DIE", res2.status, res2.body)
+                expect(res2.status).toBe(201)
               })
           })
-
 
     })
 

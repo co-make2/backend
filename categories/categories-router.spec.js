@@ -25,11 +25,10 @@ describe('categories router', function (){
         zip: "00000"
     }
 
-
-
-    beforeEach(async () => {
-        await db('users').truncate()
+    beforeAll(async () => {
         await db('categories').truncate()
+        await db('posts').truncate()
+        await db('users').truncate()
     })
 
     beforeEach(async () => {
@@ -83,7 +82,7 @@ describe('categories router', function (){
             .then(res2 => {
             expect(res2.status).toBe(200)
             })
-        })
+        }) 
       })
     })
 
