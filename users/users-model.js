@@ -71,6 +71,7 @@ function update(id, changes){
 function remove(id){
     findById(id)
       .then(user => {
+        // console.log("USER",user)
           return (deletedUser = user)
       })
 

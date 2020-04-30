@@ -39,7 +39,7 @@ describe('users router', function (){
 
     const testLogin = {
         username: "testuser",
-        password: 'testpassword'
+        password: 'testpassword' 
     }
 
     describe('POST /api/users/login', function () {
@@ -56,21 +56,41 @@ describe('users router', function (){
 
     const newZip = {zip: "00007"}
 
-    // describe("PUT /api/user first set get to aquire userid", async function () {
-    //     it('should return 200 OK', function (){
-    //         return request(server)
-    //           .get('/api/users')
-    //           .then(res => {
-    //              return (user = res.body[0].id)
-    //           })
-    //           .put(`/api/users/${user}`)
-    //               .send(newZip)
-    //               .then(res2 => {
-    //                   expect(res2.status).toBe(201)
-    //               })
-    //     })
-    // })
+    describe("PUT /api/users - first need to set userid in req", function () {
+        it('should return 200 OK', function (){
+            return request(server)
+              .get('/api/users')
+              .then(res => {
+                 return (user = res.body[0].id)
+              })
+              .then(user => {
+                  return request(server)
+                    .put(`/api/users/${user}`)
+                    .send(newZip)
+                    .then(res2 => {
+                        expect(res2.status).toBe(201)
+                    })
+              })
+              
+        })
+    })
 
+    describe('DELETE /api/users - first need to set userid in req', function () {
+        it('should return 200 OK', function () {
+            return request(server)
+              .get('/api/users')
+                .then(res => {
+                    return (user = res.body[0].id)
+                })
+                .then(user => {
+                    return request(server)
+                    .delete(`/api/users/${user}`)
+                    .then(res2 => {
+                        expect(res2.status).toBe(200)
+                    })
+                })
+        })
+    })
 
 
 })

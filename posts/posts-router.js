@@ -16,13 +16,18 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     postData = req.body
 
-    Posts.add(postData)
+    if(postData.title && postData.text && postData.zip && postData.user_id){
+      Posts.add(postData)
       .then(newPost => {
           res.status(201).json(newPost)
       })
       .catch(error => {
         res.status(500).json({message: "server Failed to create a post", error: error.message})
     })
+    } else {
+      res.status(404).json({error: 'A Post Request Requires title, text, zip and user_id'})
+    }
+    
 })
 
 router.get('/:id', (req, res) => {

@@ -80,9 +80,9 @@ router.delete('/:id', (req, res) => {
     Users.remove(id)
       .then(deleted => {
         if (deleted) {
-            res.json({removed: deleted})
+            res.status(200).json({removed: deleted})
         } else {
-            res.status(404).json({error: `Could not find a project with id ${id}`})
+            res.status(404).json({error: `Could not find a user with id ${id}`})
         }
       })
       .catch(error => {
