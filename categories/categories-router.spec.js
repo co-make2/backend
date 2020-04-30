@@ -81,7 +81,7 @@ describe('categories router', function (){
             .send(newCat)
             .set('authorization', token)
             .then(res => {
-            expect(res.status).toBe(200)
+            expect(res.status).toBe(201)
             })
         })
       })

@@ -63,7 +63,7 @@ describe('posts router', function (){
             zip: "00001"
         }
         
-        console.log("TestPost***", testPost)
+        // console.log("TestPost***", testPost)
         return request(server)
           .post('/api/posts')
           .send(testPost)
@@ -71,6 +71,34 @@ describe('posts router', function (){
           .then(res => {
             expect(res.status).toBe(201)
           })
+    })
+
+    const newZip = {zip: "00007"}
+
+    it('should return status 201 on PUT to categories', function (){
+
+        const testPost = {
+            user_id: id,
+            title: "Big Day for Testing",
+            text: "text is needed",
+            zip: "00001"
+        }
+
+        return request(server)
+          .post('/api/posts')
+          .send(testPost)
+          .set('authorization', token)
+          .then(res => {
+              return request(server)
+              .put('/api/posts/1')
+              .send(newZip)
+              .set('authorization', token)
+              .then(res2 => {
+                expect(res.status).toBe(200)
+              })
+          })
+
+
     })
 
 })
