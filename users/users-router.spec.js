@@ -15,8 +15,9 @@ describe('users router', function (){
         })
     })
 
-    beforeEach(async () => {
-        await db('users').truncate() 
+    beforeAll(async () => {
+        await db('users').truncate()
+        await db('posts').truncate() 
     })
  
  
@@ -84,7 +85,6 @@ describe('users router', function (){
                     })
               })
               }) 
-              
         })
     })
 
@@ -110,6 +110,5 @@ describe('users router', function (){
 
         })
     })
-
 
 })

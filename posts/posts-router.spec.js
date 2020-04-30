@@ -25,12 +25,13 @@ describe('posts router', function (){
         zip: "00000"
     }
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         await db('users').truncate()
         await db('posts').truncate()
+        await db('categories').truncate()
     })
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         await request(server)
         .post('/api/users/register')
         .send(testUser)
@@ -42,7 +43,7 @@ describe('posts router', function (){
         })
     })
 
-    it('should return status 200 on GET to categories with auth', function (){
+    it('should return status 200 on GET to posts with auth', function (){
         
         return request(server)
         .get('/api/posts')
@@ -84,7 +85,7 @@ describe('posts router', function (){
             zip: "00001" 
         }
 
-        // console.log("HERE IS THE TEST POST", testPost)
+        console.log("HERE IS THE TEST POST", testPost)
 
         return request(server)
           .post('/api/posts')
@@ -131,7 +132,6 @@ describe('posts router', function (){
                 console.log("VOTE OR DIE", res2.status, res2.body)
                 expect(res2.status).toBe(201)
               })
-
           })
 
     })

@@ -25,11 +25,10 @@ describe('categories router', function (){
         zip: "00000"
     }
 
-
-
-    beforeEach(async () => {
+    beforeAll(async () => {
         await db('users').truncate()
         await db('categories').truncate()
+        await db('posts').truncate()
     })
 
     beforeEach(async () => {
