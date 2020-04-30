@@ -67,7 +67,7 @@ router.put('/:id', (req, res) => {
           if (post){
               Posts.update(id, changes)
                 .then(updatedPost => {
-                      res.status(201).json(updatedPost)
+                      res.status(200).json(updatedPost)
                 })
           } else {
             res.status(404).json({ message: `Could not find post with id ${id}` })
